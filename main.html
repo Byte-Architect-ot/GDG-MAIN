@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angry Birds Event 2.0</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee:wght@400&family=Bungee+Shade:wght@400&family=Black+Ops+One:wght@400&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Orbitron', monospace;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 50%, #B0E0E6 100%);
+        }
+
+        .angry-birds-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 50%, #B0E0E6 100%);
+            z-index: -2;
+        }
+
+        .clouds {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.8;
+            animation: float 20s infinite linear;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+        }
+
+        .cloud1 {
+            width: 100px;
+            height: 40px;
+            top: 20%;
+            left: -100px;
+            animation-duration: 25s;
+        }
+
+        .cloud1::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud1::after {
+            width: 60px;
+            height: 40px;
+            top: -15px;
+            right: 10px;
+        }
+
+        .cloud2 {
+            width: 80px;
+            height: 30px;
+            top: 40%;
+            left: -80px;
+            animation-duration: 30s;
+            animation-delay: -10s;
+        }
+
+        .cloud2::before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 15px;
+        }
+
+        .cloud2::after {
+            width: 50px;
+            height: 30px;
+            top: -10px;
+            right: 15px;
+        }
+
+        .cloud3 {
+            width: 120px;
+            height: 50px;
+            top: 60%;
+            left: -120px;
+            animation-duration: 35s;
+            animation-delay: -20s;
+        }
+
+        .cloud3::before {
+            width: 60px;
+            height: 60px;
+            top: -30px;
+            left: 20px;
+        }
+
+        .cloud3::after {
+            width: 70px;
+            height: 50px;
+            top: -20px;
+            right: 20px;
+        }
+
+        @keyframes float {
+            from {
+                transform: translateX(-100px);
+            }
+            to {
+                transform: translateX(calc(100vw + 100px));
+            }
+        }
+
+        .main-container {
+            position: relative;
+            min-height: 100vh;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grass" x="0" y="0" width="10" height="20" patternUnits="userSpaceOnUse"><rect width="10" height="20" fill="%2332CD32"/><rect x="2" y="15" width="2" height="5" fill="%2328A428"/><rect x="6" y="12" width="1" height="8" fill="%2328A428"/></pattern></defs><rect width="100" height="20" fill="url(%23grass)"/></svg>') repeat-x bottom;
+            background-size: 200px 40px;
+        }
+
+        .header-logos {
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            /* padding: 0.5rem 1rem; */
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            pointer-events: none;
+        }
+
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7rem;
+            opacity: 0;
+            transform: translateY(-50px);
+            pointer-events: all;
+            /* overflow: hidden; */
+        }
+
+        .logo-section img {
+            max-width: 30vh;   /* control size */
+            max-height: 30vh;  /* keep uniform */
+            width: auto;
+            height: auto;
+            object-fit: contain; /* prevent stretching */
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border: 4px solid white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+
+        .gdg-logo {
+            background: linear-gradient(135deg, #4285F4 0%, #34A853 25%, #FBBC04 50%, #EA4335 75%, #4285F4 100%);
+            color: white;
+            font-family: 'Black Ops One', cursive;
+        }
+
+        .college-logo {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            color: white;
+            font-family: 'Black Ops One', cursive;
+        }
+
+        .logo-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 8rem 2rem 2rem;
+            text-align: center;
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .title {
+            font-family: 'Bungee Shade', cursive;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: #FF4500;
+            text-shadow: 6px 6px 0px #CC3300, 12px 12px 0px rgba(0,0,0,0.4);
+            margin-bottom: 2rem;
+            transform: scale(0);
+            letter-spacing: 3px;
+            font-weight: 400;
+        }
+
+        .subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: #2E5C00;
+            font-weight: 900;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            text-shadow: 3px 3px 0px rgba(255,255,255,0.8);
+            font-family: 'Black Ops One', cursive;
+            letter-spacing: 2px;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 2rem 0;
+            transform: rotateY(90deg);
+            opacity: 0;
+        }
+
+        .video-frame {
+            width: 100%;
+            height: 450px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 5px solid #FF4500;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .video-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .spinning-bird {
+            width: 150px;
+            height: 150px;
+            margin: 2rem auto;
+            position: relative;
+            transform: scale(0) rotate(0deg);
+        }
+
+        .bird {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, #FF4500 0%, #FF6B00 50%, #FF8C00 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            border: 3px solid #CC3300;
+            box-shadow: inset 0 10px 20px rgba(255,255,255,0.3), 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .bird::before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 15px;
+            background: #FFD700;
+            border-radius: 0 50% 50% 0;
+            top: 45%;
+            right: -15px;
+            border: 2px solid #FF8C00;
+            transform: rotate(-10deg);
+        }
+
+        .bird::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background: #000;
+            border-radius: 50%;
+            top: 35%;
+            right: 25%;
+            border: 2px solid white;
+        }
+
+        .action-section {
+            background: linear-gradient(135deg, #228B22 0%, #32CD32 100%);
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><polygon fill="%2387CEEB" points="0,0 100,0 90,20 10,20"/></svg>') repeat-x;
+            background-size: 100px 20px;
+        }
+
+        .action-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transform: translateX(-100px);
+            opacity: 0;
+            border: 3px solid #FF4500;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .action-title {
+            font-family: 'Bungee', cursive;
+            font-size: 1.5rem;
+            color: #2E5C00;
+            margin-bottom: 1rem;
+            text-align: center;
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.8);
+            letter-spacing: 1px;
+        }
+
+        .action-subtitle {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-weight: 700;
+            font-family: 'Orbitron', monospace;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            transform: scale(0.9);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            font-family: 'Black Ops One', cursive;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+            color: #2E5C00;
+            border: 3px solid #FF4500;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+            color: white;
+            border: 3px solid #1E5C1E;
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            border: 3px solid #075E54;
+        }
+
+        .btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+
+        .footer {
+            background: black;
+            color: white;
+        }
+
+        .footer-container {
+            padding: 0.75rem 0;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            align-items: center;
+            background: black;
+        }
+
+        .GDSC-details {
+            padding: 0 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .GDSC-logo {
+            text-decoration: none;
+        }
+
+        .GDSC-Powered-by {
+            font-weight: bold;
+            font-size: 1.125rem;
+            color: white;
+        }
+
+        .WCE-address {
+            color: white;
+            text-decoration: none;
+        }
+
+        .WCE-address:hover {
+            color: #ccc;
+        }
+
+        .capitalize {
+            text-transform: capitalize;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #ddd;
+            transform: scale(1.1);
+        }
+
+        @media (min-width: 768px) {
+            .footer-container {
+                padding: 3rem 0;
+            }
+        }
+
+        /* Bouncing birds animation */
+        .flying-birds {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .flying-bird {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #FF4500;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .video-frame {
+                height: 250px;
+            }
+            
+            .spinning-bird {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        .image-gallery {
+            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-gallery::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><polygon fill="%2387CEEB" points="0,0 100,0 90,20 10,20"/></svg>') repeat-x;
+            background-size: 100px 20px;
+        }
+
+        .gallery-title {
+            font-family: 'Bungee', cursive;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: #FFD700;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 3px 3px 0px #FF4500, 6px 6px 0px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+
+        .image-containers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .image-container {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 4px solid #FF4500;
+            position: relative;
+            overflow: hidden;
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .image-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .image-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,215,0,0.2), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 4s infinite;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            border: 3px solid #4682B4;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-placeholder::before {
+            content: '🖼️';
+            font-size: 3rem;
+            opacity: 0.5;
+        }
+
+        .image-text {
+            font-family: 'Black Ops One', cursive;
+            font-size: 1.2rem;
+            color: #2E5C00;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+        }
+
+        .image-description {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Mobile Responsive Fixes */
+        @media (max-width: 768px) {
+        /* Logos */
+        .logo-section img {
+            max-width: 120px;
+            max-height: 120px;
+        }
+        .header-logos {
+            flex-direction: row;
+            justify-content: center;
+            gap: 5rem;
+            padding: 0.5rem;
+        }
+
+        /* Hero */
+        .hero-section {
+            padding: 4rem 1rem 2rem;
+        }
+        .title {
+            font-size: 2rem;
+        }
+        .subtitle {
+            font-size: 1rem;
+        }
+
+        /* Video */
+        .video-frame {
+            height: 200px;
+        }
+
+        /* Spinning bird */
+        .spinning-bird {
+            width: 80px;
+            height: 80px;
+        }
+
+        /* Gallery */
+        .image-containers {
+            grid-template-columns: 1fr; /* single column on small screens */
+            gap: 1.5rem;
+        }
+        .image-placeholder {
+            height: 150px;
+        }
+
+        /* Footer */
+        .footer-container {
+            flex-direction: column;
+            text-align: center;
+            gap: 1.5rem;
+            padding: 1.5rem 1rem;
+        }
+        .GDSC-details {
+            align-items: center;
+        }
+        .social-links {
+            justify-content: center;
+        }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="angry-birds-bg"></div>
+    
+    <div class="clouds">
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        <div class="cloud cloud3"></div>
+    </div>
+
+    <div class="flying-birds">
+        <div class="flying-bird" style="top: 30%; left: 20%;"></div>
+        <div class="flying-bird" style="top: 60%; left: 70%;"></div>
+        <div class="flying-bird" style="top: 45%; left: 90%;"></div>
+    </div>
+
+    <div class="header-logos">
+        <div class="logo-section">
+            <img class="pt-1" src="/assets/gdglogo.png" alt="GDG Logo" style="margin-right: 20px;">
+        </div>
+        <div class="logo-section">
+            <img class="pt-4 mr-2" src="/assets/college logo.png" alt="College Logo">
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- <div class="slingshot"></div> -->
+        
+        <section class="hero-section">
+            <h1 class="title">Are Birds Ready to Fly?</h1>
+            <p class="subtitle">Get Ready to Sling Into Action! 🎯</p>
+            
+            <div class="video-container">
+                <div class="video-frame">
+                    <iframe
+                        src="https://www.youtube.com/embed/9SWGZsVSxKs?autoplay=1&mute=1"
+                        title="YouTube video player"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+            </div>
+            
+            <div class="spinning-bird">
+                <div class="bird"></div>
+            </div>
+        </section>
+
+        <section class="action-section">
+            <div class="action-card">
+                <h3 class="action-title">🎯 Launch Your RSVP!</h3>
+                <a href="https://gdg.community.dev/events/details/google-gdg-on-campus-walchand-college-of-engineering-sangli-india-presents-g-verse-20/" 
+                   class="btn btn-primary">
+                    RSVP Now - Join the Flock!
+                </a>
+            </div>
+
+            <div class="action-card">
+                <h3 class="action-title">📱 Download the Battle App</h3>
+                <h6 class="action-subtitle">(Required for Maximum Destruction!)</h6>
+                <a href="/GDSC/G-Verse.apk" download class="btn btn-success">
+                    Download Angry Birds Quiz App
+                </a>
+            </div>
+
+            <div class="action-card">
+                <h3 class="action-title">💬 Join the Bird Squad</h3>
+                <a href="https://chat.whatsapp.com/JVFMO1MLQnAAJCeSMra4JF" 
+                   class="btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Join WhatsApp Nest
+                </a>
+            </div>
+        </section>
+
+        <section class="image-gallery">
+            <h2 class="gallery-title">🎮 EVENT HIGHLIGHTS 🎮</h2>
+            <div class="image-containers">
+                <div class="image-container">
+                    <div class="image-placeholder"></div>
+                    <h3 class="image-text">EPIC BATTLES</h3>
+                    <p class="image-description">Witness the most intense Angry Birds competitions and tournaments</p>
+                </div>
+                <div class="image-container">
+                    <div class="image-placeholder"></div>
+                    <h3 class="image-text">TEAM BUILDING</h3>
+                    <p class="image-description">Build your squad and master the art of strategic bird flinging</p>
+                </div>
+                <div class="image-container">
+                    <div class="image-placeholder"></div>
+                    <h3 class="image-text">PRIZES & REWARDS</h3>
+                    <p class="image-description">Amazing prizes await the ultimate Angry Birds champions</p>
+                </div>
+                <div class="image-container">
+                    <div class="image-placeholder"></div>
+                    <h3 class="image-text">CODING CHALLENGES</h3>
+                    <p class="image-description">Combine coding skills with Angry Birds strategy in unique challenges</p>
+                </div>
+                <div class="image-container">
+                    <div class="image-placeholder"></div>
+                    <h3 class="image-text">NETWORKING</h3>
+                    <p class="image-description">Connect with fellow developers and gamers in the community</p>
+                </div>
+                <div class="image-container">
+                    <div class="image-placeholder"></div>
+                    <h3 class="image-text">WORKSHOPS</h3>
+                    <p class="image-description">Learn game development and mobile app creation techniques</p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-container flex justify-start flex-wrap items-center bg-black">
+                <div class="GDSC-details px-5 flex flex-col space-y-3">
+                <a class="GDSC-logo" href="/">
+                    <img
+                    alt="GDSC"
+                    src="/assets/logo2.png"
+                    width="225"
+                    height="225"
+                    decoding="async"
+                    data-nimg="1"
+                    class="w-16 h-12 sm:w-20 sm:h-16 lg:w-28 lg:h-20 object-cover"
+                    loading="lazy"
+                    />
+                </a>
+                <div class="GDSC-Powered-by font-bold text-lg text-white">
+                    GDG-WCE powered by Google Developers Group
+                </div>
+                <a
+                    target="_blank"
+                    class="WCE-address text-white"
+                    href="https://www.google.com/maps/place/Walchand+College+of+Engineering/@16.8457387,74.5992688,17z/data=!3m1!4b1!4m5!3m4!1s0x3bc1237f52c65db5:0xa3535676176ded0a!8m2!3d16.8457387!4d74.6014575"
+                >
+                    <span class="capitalize line-1">
+                    Walchand College of Engineering,
+                    </span>
+                    <br />
+                    <span class="capitalize line-2">
+                    Sangli, Maharashtra, 416416
+                    </span>
+                    <br />
+                    <span class="capitalize line-3">India.</span>
+                    <br />
+                </a>
+                <div class="social-links flex space-x-3">
+                    <a
+                    target="_blank"
+                    href="https://www.instagram.com/gdsc_wce/?hl=en"
+                    >
+                    <i class="fab fa-instagram text-white w-6 h-6"></i>
+                    </a>
+                    <a target="_blank" href="/#">
+                    <i class="fab fa-twitter text-white w-6 h-6"></i>
+                    </a>
+                    <a
+                    target="_blank"
+                    href="https://www.youtube.com/channel/UCrwdrer13mWACqFNR8y6vgA"
+                    >
+                    <i class="fab fa-youtube text-white w-6 h-6"></i>
+                    </a>
+                    <a target="_blank" href="https://github.com/gdscwce">
+                    <i class="fab fa-github text-white w-6 h-6"></i>
+                    </a>
+                    <a
+                    target="_blank"
+                    href="https://www.linkedin.com/company/gdsc-wce/mycompany/"
+                    >
+                    <i class="fab fa-linkedin text-white w-6 h-6"></i>
+                    </a>
+                </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+    </script>
+
+    <script>
+        // GSAP Animations
+        gsap.registerPlugin();
+
+        // Header logos entrance animation
+        gsap.timeline()
+            .to('.logo-section', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                stagger: 0.3,
+                ease: 'bounce.out',
+                delay: 0.2
+            })
+            .to('.title', {
+                scale: 1,
+                duration: 1,
+                ease: 'bounce.out',
+                delay: 0.5
+            })
+            .to('.subtitle', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power2.out'
+            })
+            .to('.video-container', {
+                rotationY: 0,
+                opacity: 1,
+                duration: 1,
+                ease: 'power2.out'
+            })
+            .to('.spinning-bird', {
+                scale: 1,
+                rotation: 360,
+                duration: 1.5,
+                ease: 'elastic.out(1, 0.3)'
+            });
+
+        // Continuous bird spinning
+        gsap.to('.spinning-bird', {
+            rotation: '+=360',
+            duration: 4,
+            ease: 'none',
+            repeat: -1,
+            delay: 2
+        });
+
+        // Flying birds animation
+        gsap.to('.flying-bird', {
+            x: '100vw',
+            duration: 20,
+            ease: 'none',
+            repeat: -1,
+            stagger: 5
+        });
+
+        // Scroll triggered animations
+        gsap.utils.toArray('.action-card').forEach((card, i) => {
+            gsap.to(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    onEnter: () => {
+                        gsap.to(card, {
+                            x: 0,
+                            opacity: 1,
+                            duration: 0.8,
+                            ease: 'back.out(1.7)',
+                            delay: i * 0.2
+                        });
+                    }
+                }
+            });
+        });
+
+        // Image containers scroll animations
+        gsap.utils.toArray('.image-container').forEach((container, i) => {
+            gsap.to(container, {
+                scrollTrigger: {
+                    trigger: container,
+                    start: 'top 85%',
+                    end: 'bottom 15%',
+                    onEnter: () => {
+                        gsap.to(container, {
+                            y: 0,
+                            opacity: 1,
+                            duration: 0.8,
+                            ease: 'back.out(1.7)',
+                            delay: (i % 3) * 0.1
+                        });
+                    }
+                }
+            });
+        });
+
+        // Logo hover animations
+        document.querySelectorAll('.logo').forEach(logo => {
+            logo.addEventListener('mouseenter', () => {
+                gsap.to(logo, {
+                    scale: 1.1,
+                    rotation: 5,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            logo.addEventListener('mouseleave', () => {
+                gsap.to(logo, {
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Button hover effects
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                gsap.to(btn, {
+                    scale: 1.05,
+                    y: -3,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(btn, {
+                    scale: 1,
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Social links hover animation
+        document.querySelectorAll('.social-links a').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                gsap.to(link, {
+                    scale: 1.2,
+                    rotation: 10,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+            
+            link.addEventListener('mouseleave', () => {
+                gsap.to(link, {
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
+            });
+        });
+
+        // Add bouncing animation to the main bird
+        gsap.to('.bird', {
+            y: -20,
+            duration: 2,
+            ease: 'power2.inOut',
+            yoyo: true,
+            repeat: -1
+        });
+
+        // Shake animation on click for interactive elements
+        document.querySelectorAll('.btn, .social-links a').forEach(element => {
+            element.addEventListener('click', () => {
+                gsap.to(element, {
+                    x: -5,
+                    duration: 0.1,
+                    yoyo: true,
+                    repeat: 5,
+                    ease: 'power2.inOut'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
