@@ -6,7 +6,7 @@
     <title>Angry Birds Event 2.0</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee:wght@400&family=Bungee+Shade:wght@400&family=Black+Ops+One:wght@400&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Bungee:wght@400&family=Black+Ops+One:wght@400&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,6 +33,7 @@
             z-index: -2;
         }
 
+        /* Enhanced cloud animations */
         .clouds {
             position: fixed;
             width: 100%;
@@ -47,6 +48,7 @@
             border-radius: 50px;
             opacity: 0.8;
             animation: float 20s infinite linear;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
         }
 
         .cloud::before,
@@ -134,6 +136,60 @@
             }
         }
 
+        /* Trajectory paths in background */
+        .trajectory-paths {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .trajectory {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #FF4500, transparent);
+            border-radius: 2px;
+            animation: trajectoryMove 8s infinite linear;
+        }
+
+        .trajectory:nth-child(1) {
+            top: 25%;
+            animation-delay: 0s;
+            transform: rotate(-15deg);
+        }
+
+        .trajectory:nth-child(2) {
+            top: 45%;
+            animation-delay: -2s;
+            transform: rotate(-25deg);
+        }
+
+        .trajectory:nth-child(3) {
+            top: 65%;
+            animation-delay: -4s;
+            transform: rotate(-10deg);
+        }
+
+        @keyframes trajectoryMove {
+            0% {
+                transform: translateX(-100%) rotate(-15deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateX(100%) rotate(-15deg);
+                opacity: 0;
+            }
+        }
+
         .main-container {
             position: relative;
             min-height: 100vh;
@@ -147,7 +203,6 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            /* padding: 0.5rem 1rem; */
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
@@ -162,57 +217,26 @@
             opacity: 0;
             transform: translateY(-50px);
             pointer-events: all;
-            /* overflow: hidden; */
+            transition: all 0.3s ease;
+        }
+
+        .logo-section:hover {
+            transform: translateY(-10px) scale(1.05);
         }
 
         .logo-section img {
-            max-width: 30vh;   /* control size */
-            max-height: 30vh;  /* keep uniform */
+            max-width: 50vh;
+            max-height: 50vh;
             width: auto;
             height: auto;
-            object-fit: contain; /* prevent stretching */
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 900;
-            font-size: 1.2rem;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            border: 4px solid white;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
             transition: all 0.3s ease;
-            cursor: pointer;
         }
 
-        .logo:hover {
-            transform: scale(1.1) rotate(5deg);
-            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
-        }
-
-        .gdg-logo {
-            background: linear-gradient(135deg, #4285F4 0%, #34A853 25%, #FBBC04 50%, #EA4335 75%, #4285F4 100%);
-            color: white;
-            font-family: 'Black Ops One', cursive;
-        }
-
-        .college-logo {
-            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
-            color: white;
-            font-family: 'Black Ops One', cursive;
-        }
-
-        .logo-label {
-            font-size: 0.7rem;
-            font-weight: 700;
-            text-align: center;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-            font-family: 'Orbitron', monospace;
-            letter-spacing: 0.5px;
+        .logo-section img:hover {
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3)) brightness(1.1);
+            transform: rotate(5deg);
         }
 
         .hero-section {
@@ -227,27 +251,39 @@
             margin-top: 2rem;
         }
 
+        /* Enhanced title styling - more casual and readable */
         .title {
-            font-family: 'Bungee Shade', cursive;
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            color: #FF4500;
-            text-shadow: 6px 6px 0px #CC3300, 12px 12px 0px rgba(0,0,0,0.4);
+            font-family: 'Fredoka', cursive;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-weight: 600;
+            color: #2E5C00;
+            text-shadow: 
+                3px 3px 0px #FFD700,
+                6px 6px 0px #FF8C00,
+                9px 9px 0px #FF4500,
+                12px 12px 10px rgba(0,0,0,0.3);
             margin-bottom: 2rem;
             transform: scale(0);
-            letter-spacing: 3px;
-            font-weight: 400;
+            letter-spacing: 2px;
+            background: linear-gradient(45deg, #2E5C00, #4A7C00, #32CD32);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
         }
+
+
 
         .subtitle {
             font-size: clamp(1rem, 3vw, 1.5rem);
             color: #2E5C00;
-            font-weight: 900;
+            font-weight: 600;
             margin-bottom: 3rem;
             opacity: 0;
             transform: translateY(30px);
-            text-shadow: 3px 3px 0px rgba(255,255,255,0.8);
-            font-family: 'Black Ops One', cursive;
-            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(255,255,255,0.8);
+            font-family: 'Fredoka', cursive;
+            letter-spacing: 1px;
         }
 
         .video-container {
@@ -257,6 +293,12 @@
             margin: 2rem 0;
             transform: rotateY(90deg);
             opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .video-container:hover {
+            transform: rotateY(0deg) scale(1.02);
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
         }
 
         .video-frame {
@@ -267,6 +309,21 @@
             border: 5px solid #FF4500;
             background: #000;
             overflow: hidden;
+            position: relative;
+        }
+
+        .video-frame::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 4s infinite;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .video-frame iframe {
@@ -282,16 +339,26 @@
             margin: 2rem auto;
             position: relative;
             transform: scale(0) rotate(0deg);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .spinning-bird:hover {
+            transform: scale(1.1) rotate(15deg);
         }
 
         .bird {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 30% 40%, #FF4500 0%, #FF6B00 50%, #FF8C00 100%);
+            /* background: radial-gradient(circle at 30% 40%, #FF4500 0%, #FF6B00 50%, #FF8C00 100%); */
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             position: relative;
-            border: 3px solid #CC3300;
-            box-shadow: inset 0 10px 20px rgba(255,255,255,0.3), 0 10px 30px rgba(0,0,0,0.3);
+            /* border: 3px solid #CC3300; */
+            /* box-shadow: 
+                inset 0 10px 20px rgba(255,255,255,0.3), 
+                0 10px 30px rgba(0,0,0,0.3),
+                0 0 20px rgba(255, 69, 0, 0.4); */
+            transition: all 0.3s ease;
         }
 
         .bird::before {
@@ -299,12 +366,13 @@
             position: absolute;
             width: 25px;
             height: 15px;
-            background: #FFD700;
-            border-radius: 0 50% 50% 0;
+            /* background: #FFD700; */
+            /* border-radius: 0 50% 50% 0; */
             top: 45%;
             right: -15px;
-            border: 2px solid #FF8C00;
+            /* border: 2px solid #FF8C00; */
             transform: rotate(-10deg);
+            transition: all 0.3s ease;
         }
 
         .bird::after {
@@ -317,10 +385,21 @@
             top: 35%;
             right: 25%;
             border: 2px solid white;
+            animation: blink 3s infinite;
         }
 
+        @keyframes blink {
+            0%, 95% { transform: scaleY(1); }
+            97% { transform: scaleY(0.1); }
+            100% { transform: scaleY(1); }
+        }
+
+        /* Enhanced action section with soil texture */
         .action-section {
-            background: linear-gradient(135deg, #228B22 0%, #32CD32 100%);
+            background: 
+                linear-gradient(135deg, rgba(34, 139, 34, 0.9), rgba(50, 205, 50, 0.9)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="soil" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="%23654321"/><circle cx="5" cy="5" r="1" fill="%23543311"/><circle cx="15" cy="12" r="1.5" fill="%23432211"/><circle cx="8" cy="15" r="0.8" fill="%23765432"/><rect x="12" y="3" width="2" height="1" fill="%23876543"/></pattern></defs><rect width="100" height="100" fill="url(%23soil)"/></svg>');
+            background-size: 50px 50px, 100px 100px;
             padding: 4rem 2rem;
             position: relative;
             overflow: hidden;
@@ -337,20 +416,41 @@
             background-size: 100px 20px;
         }
 
+        /* Reduced to 3 main cards */
+        .action-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         .action-card {
             background: rgba(255,255,255,0.95);
             border-radius: 20px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 600px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            transform: translateX(-100px);
+            padding: 2.5rem;
+            box-shadow: 
+                0 15px 35px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.6);
+            transform: translateY(50px);
             opacity: 0;
-            border: 3px solid #FF4500;
+            border: 4px solid #FF4500;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .action-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 
+                0 25px 60px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.8);
+            border-color: #FFD700;
         }
 
         .action-card::before {
@@ -360,33 +460,46 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(45deg, transparent, rgba(255,215,0,0.2), transparent);
             transform: rotate(45deg);
-            animation: shimmer 3s infinite;
+            animation: shimmer 4s infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        .action-card:hover::before {
+            opacity: 1;
+        }
+
+        .action-card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
         .action-title {
-            font-family: 'Bungee', cursive;
+            font-family: 'Fredoka', cursive;
             font-size: 1.5rem;
+            font-weight: 600;
             color: #2E5C00;
             margin-bottom: 1rem;
-            text-align: center;
-            text-shadow: 2px 2px 0px rgba(255,255,255,0.8);
-            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+            letter-spacing: 0.5px;
         }
 
         .action-subtitle {
             font-size: 0.9rem;
             color: #666;
             margin-bottom: 1.5rem;
-            text-align: center;
-            font-weight: 700;
+            font-weight: 500;
             font-family: 'Orbitron', monospace;
+            opacity: 0.8;
         }
 
         .btn {
@@ -394,20 +507,21 @@
             padding: 1rem 2rem;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: 900;
+            font-weight: 600;
             font-size: 1rem;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
-            transform: scale(0.9);
             cursor: pointer;
             border: none;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-            font-family: 'Black Ops One', cursive;
+            box-shadow: 
+                0 8px 25px rgba(0,0,0,0.2),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+            font-family: 'Fredoka', cursive;
             letter-spacing: 1px;
             text-transform: uppercase;
-
+            transform: translateY(0);
         }
 
         .btn::before {
@@ -417,10 +531,17 @@
             left: 50%;
             width: 0;
             height: 0;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.4);
             border-radius: 50%;
-            transition: all 0.5s ease;
+            transition: all 0.6s ease;
             transform: translate(-50%, -50%);
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 15px 40px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.4);
         }
 
         .btn:hover::before {
@@ -428,41 +549,57 @@
             height: 300px;
         }
 
+        .btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
         .btn-primary {
-            background: linear-gradient(135deg, #FFD700 0%, #FF8C00 100%);
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
             color: #2E5C00;
             border: 3px solid #FF4500;
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+            background: linear-gradient(135deg, #32CD32 0%, #228B22 50%, #006400 100%);
             color: white;
             border: 3px solid #1E5C1E;
         }
 
         .btn-whatsapp {
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 50%, #075E54 100%);
             color: white;
             border: 3px solid #075E54;
         }
 
-        .btn:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        .footer {
+            background: linear-gradient(135deg, #1a1a1a, #000);
+            color: white;
+            position: relative;
         }
 
-        .footer {
-            background: black;
-            color: white;
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #FF4500, #FFD700, #32CD32, #FF4500);
+            background-size: 200% 100%;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .footer-container {
-            padding: 0.75rem 0;
+            padding: 2rem 0;
             display: flex;
             justify-content: flex-start;
             flex-wrap: wrap;
             align-items: center;
-            background: black;
         }
 
         .GDSC-details {
@@ -474,6 +611,12 @@
 
         .GDSC-logo {
             text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .GDSC-logo:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
         }
 
         .GDSC-Powered-by {
@@ -483,16 +626,14 @@
         }
 
         .WCE-address {
-            color: white;
+            color: #ccc;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
 
         .WCE-address:hover {
-            color: #ccc;
-        }
-
-        .capitalize {
-            text-transform: capitalize;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
 
         .social-links {
@@ -502,68 +643,38 @@
 
         .social-links a {
             color: white;
-            width: 1.5rem;
-            height: 1.5rem;
+            width: 2.5rem;
+            height: 2.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            font-size: 1.2rem;
         }
 
         .social-links a:hover {
-            color: #ddd;
-            transform: scale(1.1);
+            color: #FFD700;
+            transform: scale(1.2) rotate(10deg);
+            background: rgba(255, 215, 0, 0.2);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
 
-        @media (min-width: 768px) {
-            .footer-container {
-                padding: 3rem 0;
-            }
-        }
-
-        /* Bouncing birds animation */
-        .flying-birds {
-            position: fixed;
-            width: 100%;
-            height: 100vh;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .flying-bird {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background: #FF4500;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            opacity: 0.7;
-        }
-
-        @media (max-width: 768px) {
-            .video-frame {
-                height: 250px;
-            }
-            
-            .spinning-bird {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-
-        .image-gallery {
-            background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
-            padding: 4rem 2rem;
+        /* Image Showcase Section - Floating Layout */
+        .image-showcase {
+            background: 
+                linear-gradient(135deg, rgba(34, 139, 34, 0.9), rgba(50, 205, 50, 0.9)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="soil2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><rect width="20" height="20" fill="%23654321"/><circle cx="5" cy="5" r="1" fill="%23543311"/><circle cx="15" cy="12" r="1.5" fill="%23432211"/><circle cx="8" cy="15" r="0.8" fill="%23765432"/><rect x="12" y="3" width="2" height="1" fill="%23876543"/></pattern></defs><rect width="100" height="100" fill="url(%23soil2)"/></svg>');
+            background-size: 50px 50px, 80px 80px;
+            padding: 6rem 2rem;
             position: relative;
             overflow: hidden;
+            min-height: 100vh;
         }
 
-        .image-gallery::before {
+        .image-showcase::before {
             content: '';
             position: absolute;
             top: 0;
@@ -574,43 +685,56 @@
             background-size: 100px 20px;
         }
 
-        .gallery-title {
-            font-family: 'Bungee', cursive;
-            font-size: clamp(2rem, 5vw, 3rem);
+        .showcase-title {
+            font-family: 'Fredoka', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 600;
             color: #FFD700;
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             text-shadow: 3px 3px 0px #FF4500, 6px 6px 0px rgba(0,0,0,0.3);
             letter-spacing: 2px;
+            position: relative;
+            z-index: 10;
         }
 
-        .image-containers {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
+        .floating-containers {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            min-height: 600px;
         }
 
-        .image-container {
+        .floating-container {
+            position: absolute;
+            width: 280px;
+            height: 320px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .floating-container:hover {
+            transform: translateY(-15px) scale(1.05);
+            z-index: 20;
+        }
+
+        .image-box {
+            width: 100%;
+            height: 240px;
             background: rgba(255,255,255,0.95);
-            border-radius: 20px;
-            padding: 1.5rem;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border-radius: 20px 20px 60% 60%;
             border: 4px solid #FF4500;
+            box-shadow: 
+                0 15px 35px rgba(0,0,0,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.6);
             position: relative;
             overflow: hidden;
-            transform: translateY(50px);
-            opacity: 0;
-            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
-        .image-container:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-        }
-
-        .image-container::before {
+        .image-box::before {
             content: '';
             position: absolute;
             top: -50%;
@@ -620,106 +744,331 @@
             background: linear-gradient(45deg, transparent, rgba(255,215,0,0.2), transparent);
             transform: rotate(45deg);
             animation: shimmer 4s infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .floating-container:hover .image-box::before {
+            opacity: 1;
         }
 
         .image-placeholder {
             width: 100%;
-            height: 200px;
+            height: 100%;
             background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 100%);
-            border-radius: 15px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 1rem;
-            border: 3px solid #4682B4;
+            font-size: 4rem;
+            opacity: 0.6;
             position: relative;
-            overflow: hidden;
+            border: 3px solid #4682B4;
         }
 
-        .image-placeholder::before {
-            content: '🖼️';
-            font-size: 3rem;
-            opacity: 0.5;
-        }
-
-        .image-text {
-            font-family: 'Black Ops One', cursive;
-            font-size: 1.2rem;
+        .info-text {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
             color: #2E5C00;
-            text-align: center;
-            margin-bottom: 0.5rem;
-            letter-spacing: 1px;
-        }
-
-        .image-description {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.9rem;
-            color: #666;
-            text-align: center;
+            font-family: 'Fredoka', cursive;
+            font-size: 1.1rem;
             font-weight: 600;
-            line-height: 1.4;
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: 3px solid #FF4500;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
         }
 
-        /* Mobile Responsive Fixes */
+        /* Connection paths between containers */
+        .connection-paths {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .path {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.4), transparent);
+            height: 3px;
+            border-radius: 3px;
+            opacity: 0;
+            animation: pathAnimation 8s infinite ease-in-out;
+        }
+
+        .path-1 {
+            top: 35%;
+            left: 25%;
+            width: 50%;
+            transform: rotate(15deg);
+            animation-delay: 0s;
+        }
+
+        .path-2 {
+            top: 25%;
+            left: 20%;
+            width: 60%;
+            transform: rotate(-10deg);
+            animation-delay: 2s;
+        }
+
+        .path-3 {
+            bottom: 35%;
+            left: 30%;
+            width: 40%;
+            transform: rotate(25deg);
+            animation-delay: 4s;
+        }
+
+        .path-4 {
+            top: 50%;
+            left: 15%;
+            width: 70%;
+            transform: rotate(-5deg);
+            animation-delay: 6s;
+        }
+
+        @keyframes pathAnimation {
+            0%, 90% { opacity: 0; transform: scale(0.8) rotate(var(--rotation, 0deg)); }
+            10%, 80% { opacity: 0.6; transform: scale(1) rotate(var(--rotation, 0deg)); }
+        }
+
+        /* Individual container animations */
+        .container-1 {
+            animation-delay: 0.2s;
+        }
+
+        .container-1 .image-box {
+            border-color: #FF4500;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.3), 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .container-2 {
+            animation-delay: 0.4s;
+        }
+
+        .container-2 .image-box {
+            border-color: #32CD32;
+            box-shadow: 0 0 20px rgba(50, 205, 50, 0.3), 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .container-3 {
+            animation-delay: 0.6s;
+        }
+
+        .container-3 .image-box {
+            border-color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3), 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .container-4 {
+            animation-delay: 0.8s;
+        }
+
+        .container-4 .image-box {
+            border-color: #FF69B4;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.3), 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        /* Floating animation */
+        @keyframes floatAnimation {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-10px) rotate(1deg); }
+            50% { transform: translateY(-5px) rotate(-1deg); }
+            75% { transform: translateY(-15px) rotate(0.5deg); }
+        }
+
+        .floating-container.visible {
+            animation: floatAnimation 6s ease-in-out infinite;
+        }
+
+        .container-1.visible { animation-delay: 0s; }
+        .container-2.visible { animation-delay: 1.5s; }
+        .container-3.visible { animation-delay: 3s; }
+        .container-4.visible { animation-delay: 4.5s; }
+        .flying-birds {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .flying-bird {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            /* background: radial-gradient(circle at 30% 40%, #FF4500 0%, #FF6B00 100%); */
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            /* opacity: 0; */
+            animation: flyAcross 15s infinite linear;
+            /* border: 2px solid #CC3300; */
+            /* box-shadow: 0 0 15px rgba(255, 69, 0, 0.3); */
+        }
+
+        .flying-bird::before {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 8px;
+            /* background: #FFD700; */
+            border-radius: 0 50% 50% 0;
+            top: 45%;
+            right: -8px;
+            /* border: 1px solid #FF8C00; */
+        }
+
+        @keyframes flyAcross {
+            0% { 
+                transform: translateX(-100px) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { 
+                opacity: 0.6; 
+            }
+            50% {
+                transform: translateX(50vw) rotate(180deg);
+            }
+            90% { 
+                opacity: 0.6; 
+            }
+            100% { 
+                transform: translateX(calc(100vw + 100px)) rotate(360deg); 
+                opacity: 0; 
+            }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        /* Mobile Responsive for Image Showcase */
         @media (max-width: 768px) {
-        /* Logos */
-        .logo-section img {
-            max-width: 120px;
-            max-height: 120px;
-        }
-        .header-logos {
-            flex-direction: row;
-            justify-content: center;
-            gap: 5rem;
-            padding: 0.5rem;
+            .image-showcase {
+                padding: 4rem 1rem;
+                min-height: 80vh;
+            }
+
+            .floating-containers {
+                height: auto;
+                min-height: auto;
+                padding: 2rem 0;
+            }
+
+            .floating-container {
+                position: relative !important;
+                width: 250px;
+                height: 280px;
+                margin: 2rem auto;
+                display: block;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                bottom: auto !important;
+            }
+
+            .image-box {
+                height: 200px;
+            }
+
+            .info-text {
+                font-size: 1rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            .connection-paths {
+                display: none;
+            }
         }
 
-        /* Hero */
-        .hero-section {
-            padding: 4rem 1rem 2rem;
-        }
-        .title {
-            font-size: 2rem;
-        }
-        .subtitle {
-            font-size: 1rem;
+        /* Bouncing birds animation */
+        @media (max-width: 768px) {
+            .logo-section img {
+                max-width: 150px;
+                max-height: 150px;
+            }
+            
+            .header-logos {
+                flex-direction: row;
+                justify-content: space-around;
+                /* gap: 20rem; */
+                padding: 0.5rem;
+            }
+
+            .hero-section {
+                padding: 4rem 1rem 2rem;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .video-frame {
+                height: 400px;
+            }
+
+            .spinning-bird {
+                width: 100px;
+                height: 100px;
+            }
+
+            .action-cards-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .action-card {
+                padding: 2rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+                padding: 1.5rem 1rem;
+            }
+            
+            .GDSC-details {
+                align-items: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
         }
 
-        /* Video */
-        .video-frame {
-            height: 200px;
+        /* Parallax effect for trajectory */
+        @media (prefers-reduced-motion: no-preference) {
+            .trajectory {
+                animation-play-state: running;
+            }
         }
 
-        /* Spinning bird */
-        .spinning-bird {
-            width: 80px;
-            height: 80px;
+        @media (prefers-reduced-motion: reduce) {
+            .trajectory {
+                animation-play-state: paused;
+            }
+            
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
-
-        /* Gallery */
-        .image-containers {
-            grid-template-columns: 1fr; /* single column on small screens */
-            gap: 1.5rem;
-        }
-        .image-placeholder {
-            height: 150px;
-        }
-
-        /* Footer */
-        .footer-container {
-            flex-direction: column;
-            text-align: center;
-            gap: 1.5rem;
-            padding: 1.5rem 1rem;
-        }
-        .GDSC-details {
-            align-items: center;
-        }
-        .social-links {
-            justify-content: center;
-        }
-        }
-
     </style>
 </head>
 <body>
@@ -731,26 +1080,45 @@
         <div class="cloud cloud3"></div>
     </div>
 
+    <div class="trajectory-paths">
+        <div class="trajectory"></div>
+        <div class="trajectory"></div>
+        <div class="trajectory"></div>
+    </div>
+
     <div class="flying-birds">
-        <div class="flying-bird" style="top: 30%; left: 20%;"></div>
-        <div class="flying-bird" style="top: 60%; left: 70%;"></div>
-        <div class="flying-bird" style="top: 45%; left: 90%;"></div>
+        <div class="flying-bird" style="top: 30%; left: -100px; animation-delay: 0s;">
+            <img src="assets/eagle.png" alt="">
+        </div>
+        <div class="flying-bird" style="top: 60%; left: -100px; animation-delay: 1s;">
+            <img src="assets/blue.png" alt="">
+        </div>
+        <div class="flying-bird" style="top: 85%; left: -100px; animation-delay: 3s;">
+            <img src="assets/red.png" alt="">
+        </div>
+        <div class="flying-bird" style="top: 20%; left: -100px; animation-delay: 2s;">
+            <img src="assets/red.png" alt="">
+        </div>
+        <div class="flying-bird" style="top: 50%; left: -100px; animation-delay: 5s;">
+            <img src="assets/red.png" alt="">
+        </div>
+        <div class="flying-bird" style="top: 85%; left: -100px; animation-delay: 3s;">
+            <img src="assets/eagle.png" alt="">
+        </div>
     </div>
 
     <div class="header-logos">
         <div class="logo-section">
-            <img class="pt-1" src="/assets/gdglogo.png" alt="GDG Logo" style="margin-right: 20px;">
+            <img class="pt-2" src="assets/gdglogo.png" alt="GDG Logo" style="margin-right: 20px;">
         </div>
         <div class="logo-section">
-            <img class="pt-4 mr-2" src="/assets/college logo.png" alt="College Logo">
+            <img class="pt-2" src="assets/college logo.png" alt="College Logo" style="max-width:75px; max-height:75px;">
         </div>
     </div>
 
     <div class="main-container">
-        <!-- <div class="slingshot"></div> -->
-        
         <section class="hero-section">
-            <h1 class="title">Are Birds Ready to Fly?</h1>
+            <h1 class="title">Are Birds <br> Ready to Fly?</h1>
             <p class="subtitle">Get Ready to Sling Into Action! 🎯</p>
             
             <div class="video-container">
@@ -765,79 +1133,102 @@
             </div>
             
             <div class="spinning-bird">
-                <div class="bird"></div>
+                <div class="bird"><img  src="assets/red.png" alt=""></div>
+                <!-- <div class="bird"><img class="]"  src="assets/red.png" alt=""></div> -->
             </div>
         </section>
 
         <section class="action-section">
-            <div class="action-card">
-                <h3 class="action-title">🎯 Launch Your RSVP!</h3>
-                <a href="https://gdg.community.dev/events/details/google-gdg-on-campus-walchand-college-of-engineering-sangli-india-presents-g-verse-20/" 
-                   class="btn btn-primary">
-                    RSVP Now - Join the Flock!
-                </a>
-            </div>
+            <div class="action-cards-container">
+                <div class="action-card">
+                    <div class="action-card-icon">🎯</div>
+                    <h3 class="action-title">Launch Your RSVP!</h3>
+                    <p class="action-subtitle">Join the flock and secure your spot</p>
+                    <a href="https://gdg.community.dev/events/details/google-gdg-on-campus-walchand-college-of-engineering-sangli-india-presents-g-verse-30-the-general-interest-meet-of-gdg-wce-sangli/" 
+                       class="btn btn-primary">
+                        RSVP Now - Join the Flock!
+                    </a>
+                </div>
 
-            <div class="action-card">
-                <h3 class="action-title">📱 Download the Battle App</h3>
-                <h6 class="action-subtitle">(Required for Maximum Destruction!)</h6>
-                <a href="/GDSC/G-Verse.apk" download class="btn btn-success">
-                    Download Angry Birds Quiz App
-                </a>
-            </div>
+                <div class="action-card">
+                    <div class="action-card-icon">🧠</div>
+                    <h3 class="action-title">Quick Quiz</h3>
+                    <p class="action-subtitle">Required for Maximum Destruction!</p>
+                    <a href="/GDSC/G-Verse.apk" download class="btn btn-success">
+                        Get Started!
+                    </a>
+                </div>
 
-            <div class="action-card">
-                <h3 class="action-title">💬 Join the Bird Squad</h3>
-                <a href="https://chat.whatsapp.com/JVFMO1MLQnAAJCeSMra4JF" 
-                   class="btn btn-whatsapp">
-                    <i class="fab fa-whatsapp"></i> Join WhatsApp Nest
-                </a>
+                <div class="action-card">
+                    <div class="action-card-icon">💬</div>
+                    <h3 class="action-title">Join the Bird Squad</h3>
+                    <p class="action-subtitle">Connect with fellow bird enthusiasts</p>
+                    <a href="https://chat.whatsapp.com/JVFMO1MLQnAAJCeSMra4JF" 
+                       class="btn btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> Join WhatsApp Nest
+                    </a>
+                </div>
             </div>
         </section>
 
-        <section class="image-gallery">
-            <h2 class="gallery-title">🎮 EVENT HIGHLIGHTS 🎮</h2>
-            <div class="image-containers">
-                <div class="image-container">
-                    <div class="image-placeholder"></div>
-                    <h3 class="image-text">EPIC BATTLES</h3>
-                    <p class="image-description">Witness the most intense Angry Birds competitions and tournaments</p>
+        <!-- Image Showcase Section with Floating Layout -->
+        <section class="image-showcase">
+            <h2 class="showcase-title">EVENT HIGHLIGHTS</h2>
+            
+            <div class="floating-containers">
+                <!-- Container 1: Top Left -->
+                <div class="floating-container container-1" style="top: 10%; left: 8%;">
+                    <div class="image-box">
+                        <div class="image-placeholder"><img src="
+                            " alt=""></div>
+                    </div>
+                    <div class="info-text">Epic Coding Battles</div>
                 </div>
-                <div class="image-container">
-                    <div class="image-placeholder"></div>
-                    <h3 class="image-text">TEAM BUILDING</h3>
-                    <p class="image-description">Build your squad and master the art of strategic bird flinging</p>
+
+                <!-- Container 2: Top Right -->
+                <div class="floating-container container-2" style="top: 20%; right: 12%;">
+                    <div class="image-box">
+                        <div class="image-placeholder"><img src="
+                            " alt=""></div>
+                    </div>
+                    <div class="info-text">Team Building Adventures</div>
                 </div>
-                <div class="image-container">
-                    <div class="image-placeholder"></div>
-                    <h3 class="image-text">PRIZES & REWARDS</h3>
-                    <p class="image-description">Amazing prizes await the ultimate Angry Birds champions</p>
+
+                <!-- Container 3: Bottom Left -->
+                <div class="floating-container container-3" style="bottom: 25%; left: 15%;">
+                    <div class="image-box">
+                        <div class="image-placeholder"><img src="
+                            " alt=""></div>
+                    </div>
+                    <div class="info-text">Amazing Prizes Await</div>
                 </div>
-                <div class="image-container">
-                    <div class="image-placeholder"></div>
-                    <h3 class="image-text">CODING CHALLENGES</h3>
-                    <p class="image-description">Combine coding skills with Angry Birds strategy in unique challenges</p>
+
+                <!-- Container 4: Bottom Right -->
+                <div class="floating-container container-4" style="bottom: 15%; right: 8%;">
+                    <div class="image-box">
+                        <div class="image-placeholder"><img src="
+                            " alt=""></div>
+                    </div>
+                    <div class="info-text">Developer Networking Hub</div>
                 </div>
-                <div class="image-container">
-                    <div class="image-placeholder"></div>
-                    <h3 class="image-text">NETWORKING</h3>
-                    <p class="image-description">Connect with fellow developers and gamers in the community</p>
-                </div>
-                <div class="image-container">
-                    <div class="image-placeholder"></div>
-                    <h3 class="image-text">WORKSHOPS</h3>
-                    <p class="image-description">Learn game development and mobile app creation techniques</p>
+
+                <!-- Central connecting paths -->
+                <div class="connection-paths">
+                    <div class="path path-1"></div>
+                    <div class="path path-2"></div>
+                    <div class="path path-3"></div>
+                    <div class="path path-4"></div>
                 </div>
             </div>
         </section>
 
         <footer class="footer">
-            <div class="footer-container flex justify-start flex-wrap items-center bg-black">
+            <div class="footer-container flex justify-start flex-wrap items-center">
                 <div class="GDSC-details px-5 flex flex-col space-y-3">
                 <a class="GDSC-logo" href="/">
                     <img
                     alt="GDSC"
-                    src="/assets/logo2.png"
+                    src="assets/logo2.png"
                     width="225"
                     height="225"
                     decoding="async"
@@ -895,69 +1286,76 @@
             </div>
         </footer>
     </div>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
         gsap.registerPlugin(ScrollTrigger);
-    </script>
 
-    <script>
         // GSAP Animations
         gsap.registerPlugin();
 
-        // Header logos entrance animation
+        // Header logos entrance animation with enhanced effects
         gsap.timeline()
             .to('.logo-section', {
                 opacity: 1,
                 y: 0,
-                duration: 1,
-                stagger: 0.3,
+                duration: 1.2,
+                stagger: 0.4,
                 ease: 'bounce.out',
-                delay: 0.2
+                delay: 0.3
             })
             .to('.title', {
                 scale: 1,
-                duration: 1,
+                duration: 1.5,
                 ease: 'bounce.out',
-                delay: 0.5
+                delay: 0.2
             })
             .to('.subtitle', {
                 opacity: 1,
                 y: 0,
-                duration: 0.8,
+                duration: 1,
                 ease: 'power2.out'
             })
             .to('.video-container', {
                 rotationY: 0,
                 opacity: 1,
-                duration: 1,
+                duration: 1.2,
                 ease: 'power2.out'
             })
             .to('.spinning-bird', {
                 scale: 1,
                 rotation: 360,
-                duration: 1.5,
+                duration: 2,
                 ease: 'elastic.out(1, 0.3)'
             });
 
-        // Continuous bird spinning
+        // Continuous bird spinning with variable speed
         gsap.to('.spinning-bird', {
             rotation: '+=360',
             duration: 4,
             ease: 'none',
             repeat: -1,
-            delay: 2
+            delay: 3
         });
 
-        // Flying birds animation
-        gsap.to('.flying-bird', {
-            x: '100vw',
-            duration: 20,
-            ease: 'none',
-            repeat: -1,
-            stagger: 5
+        // Enhanced flying birds animation
+        gsap.utils.toArray('.flying-bird').forEach((bird, i) => {
+            gsap.set(bird, {
+                x: -100,
+                y: Math.random() * 200 + 100
+            });
+            
+            gsap.to(bird, {
+                x: window.innerWidth + 100,
+                duration: 15 + Math.random() * 5,
+                ease: 'none',
+                repeat: -1,
+                delay: i * 5,
+                rotation: 360
+            });
         });
 
-        // Scroll triggered animations
+        // Scroll triggered animations for action cards
         gsap.utils.toArray('.action-card').forEach((card, i) => {
             gsap.to(card, {
                 scrollTrigger: {
@@ -966,7 +1364,7 @@
                     end: 'bottom 20%',
                     onEnter: () => {
                         gsap.to(card, {
-                            x: 0,
+                            y: 0,
                             opacity: 1,
                             duration: 0.8,
                             ease: 'back.out(1.7)',
@@ -977,53 +1375,43 @@
             });
         });
 
-        // Image containers scroll animations
-        gsap.utils.toArray('.image-container').forEach((container, i) => {
-            gsap.to(container, {
-                scrollTrigger: {
-                    trigger: container,
-                    start: 'top 85%',
-                    end: 'bottom 15%',
-                    onEnter: () => {
-                        gsap.to(container, {
-                            y: 0,
-                            opacity: 1,
-                            duration: 0.8,
-                            ease: 'back.out(1.7)',
-                            delay: (i % 3) * 0.1
-                        });
-                    }
-                }
-            });
-        });
-
-        // Logo hover animations
-        document.querySelectorAll('.logo').forEach(logo => {
+        // Enhanced hover animations for logos
+        document.querySelectorAll('.logo-section').forEach(logo => {
             logo.addEventListener('mouseenter', () => {
                 gsap.to(logo, {
-                    scale: 1.1,
-                    rotation: 5,
-                    duration: 0.3,
+                    y: -15,
+                    scale: 1.08,
+                    duration: 0.4,
+                    ease: 'power2.out'
+                });
+                gsap.to(logo.querySelector('img'), {
+                    rotation: 8,
+                    duration: 0.4,
                     ease: 'power2.out'
                 });
             });
             
             logo.addEventListener('mouseleave', () => {
                 gsap.to(logo, {
+                    y: 0,
                     scale: 1,
+                    duration: 0.4,
+                    ease: 'power2.out'
+                });
+                gsap.to(logo.querySelector('img'), {
                     rotation: 0,
-                    duration: 0.3,
+                    duration: 0.4,
                     ease: 'power2.out'
                 });
             });
         });
 
-        // Button hover effects
+        // Enhanced button hover effects
         document.querySelectorAll('.btn').forEach(btn => {
             btn.addEventListener('mouseenter', () => {
                 gsap.to(btn, {
+                    y: -8,
                     scale: 1.05,
-                    y: -3,
                     duration: 0.3,
                     ease: 'power2.out'
                 });
@@ -1031,22 +1419,33 @@
             
             btn.addEventListener('mouseleave', () => {
                 gsap.to(btn, {
-                    scale: 1,
                     y: 0,
+                    scale: 1,
                     duration: 0.3,
                     ease: 'power2.out'
                 });
             });
+
+            // Click effect
+            btn.addEventListener('click', () => {
+                gsap.to(btn, {
+                    scale: 0.95,
+                    duration: 0.1,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: 'power2.inOut'
+                });
+            });
         });
 
-        // Social links hover animation
+        // Social links enhanced hover animation
         document.querySelectorAll('.social-links a').forEach(link => {
             link.addEventListener('mouseenter', () => {
                 gsap.to(link, {
-                    scale: 1.2,
-                    rotation: 10,
+                    scale: 1.3,
+                    rotation: 15,
                     duration: 0.3,
-                    ease: 'power2.out'
+                    ease: 'back.out(1.7)'
                 });
             });
             
@@ -1062,24 +1461,166 @@
 
         // Add bouncing animation to the main bird
         gsap.to('.bird', {
-            y: -20,
-            duration: 2,
+            y: -25,
+            duration: 2.5,
             ease: 'power2.inOut',
             yoyo: true,
             repeat: -1
         });
 
-        // Shake animation on click for interactive elements
-        document.querySelectorAll('.btn, .social-links a').forEach(element => {
-            element.addEventListener('click', () => {
-                gsap.to(element, {
-                    x: -5,
+        // Spinning bird click interaction
+        document.querySelector('.spinning-bird').addEventListener('click', () => {
+            gsap.to('.spinning-bird', {
+                rotation: '+=720',
+                scale: 1.2,
+                duration: 1,
+                ease: 'bounce.out',
+                yoyo: true,
+                repeat: 1
+            });
+        });
+
+        // Video container hover effect
+        document.querySelector('.video-container').addEventListener('mouseenter', () => {
+            gsap.to('.video-container', {
+                scale: 1.02,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+
+        document.querySelector('.video-container').addEventListener('mouseleave', () => {
+            gsap.to('.video-container', {
+                scale: 1,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+
+        // Title glow effect on hover
+        document.querySelector('.title').addEventListener('mouseenter', () => {
+            gsap.to('.title', {
+                textShadow: '0 0 20px rgba(255, 215, 0, 0.8), 3px 3px 0px #FFD700, 6px 6px 0px #FF8C00, 9px 9px 0px #FF4500, 12px 12px 10px rgba(0,0,0,0.3)',
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+
+        document.querySelector('.title').addEventListener('mouseleave', () => {
+            gsap.to('.title', {
+                textShadow: '3px 3px 0px #FFD700, 6px 6px 0px #FF8C00, 9px 9px 0px #FF4500, 12px 12px 10px rgba(0,0,0,0.3)',
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+
+        // Parallax effect for clouds
+        gsap.utils.toArray('.cloud').forEach(cloud => {
+            gsap.to(cloud, {
+                x: '100vw',
+                duration: 25 + Math.random() * 10,
+                ease: 'none',
+                repeat: -1,
+                delay: Math.random() * -20
+            });
+        });
+
+        // Action card icons bounce on scroll into view
+        gsap.utils.toArray('.action-card-icon').forEach(icon => {
+            gsap.to(icon, {
+                scrollTrigger: {
+                    trigger: icon,
+                    start: 'top 80%',
+                    onEnter: () => {
+                        gsap.to(icon, {
+                            scale: 1.2,
+                            duration: 0.5,
+                            ease: 'bounce.out',
+                            yoyo: true,
+                            repeat: 1
+                        });
+                    }
+                }
+            });
+        });
+
+        // Image showcase scroll animations
+        gsap.utils.toArray('.floating-container').forEach((container, i) => {
+            gsap.to(container, {
+                scrollTrigger: {
+                    trigger: container,
+                    start: 'top 85%',
+                    end: 'bottom 15%',
+                    onEnter: () => {
+                        gsap.to(container, {
+                            y: 0,
+                            opacity: 1,
+                            duration: 0.8,
+                            ease: 'back.out(1.7)',
+                            delay: i * 0.2
+                        });
+                        container.classList.add('visible');
+                    }
+                }
+            });
+        });
+
+        // Floating container hover effects
+        document.querySelectorAll('.floating-container').forEach(container => {
+            container.addEventListener('mouseenter', () => {
+                gsap.to(container, {
+                    y: -20,
+                    scale: 1.08,
+                    rotation: Math.random() * 6 - 3,
+                    duration: 0.4,
+                    ease: 'power2.out'
+                });
+                gsap.to(container.querySelector('.image-box'), {
+                    boxShadow: '0 25px 50px rgba(0,0,0,0.4), 0 0 30px rgba(255, 215, 0, 0.3)',
+                    duration: 0.4
+                });
+            });
+            
+            container.addEventListener('mouseleave', () => {
+                gsap.to(container, {
+                    y: 0,
+                    scale: 1,
+                    rotation: 0,
+                    duration: 0.4,
+                    ease: 'power2.out'
+                });
+            });
+
+            // Click effect for floating containers
+            container.addEventListener('click', () => {
+                gsap.to(container, {
+                    scale: 0.95,
                     duration: 0.1,
                     yoyo: true,
-                    repeat: 5,
+                    repeat: 1,
                     ease: 'power2.inOut'
                 });
             });
+        });
+
+        // Connection paths animation
+        gsap.utils.toArray('.path').forEach((path, i) => {
+            gsap.fromTo(path, 
+                { 
+                    scaleX: 0,
+                    opacity: 0
+                },
+                {
+                    scaleX: 1,
+                    opacity: 0.6,
+                    duration: 2,
+                    ease: 'power2.inOut',
+                    repeat: -1,
+                    yoyo: true,
+                    delay: i * 2,
+                    repeatDelay: 6
+                }
+            );
         });
     </script>
 </body>
