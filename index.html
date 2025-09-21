@@ -259,7 +259,7 @@
             font-weight: 600;
             color: #2E5C00;
             text-shadow: 
-                3px 3px 0px #FFD700,
+                3px 3px 0px #b30000,
                 6px 6px 0px #FF8C00,
                 9px 9px 0px #FF4500,
                 12px 12px 10px rgba(0,0,0,0.3);
@@ -1493,23 +1493,6 @@
         document.querySelector('.video-container').addEventListener('mouseleave', () => {
             gsap.to('.video-container', {
                 scale: 1,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        });
-
-        // Title glow effect on hover
-        document.querySelector('.title').addEventListener('mouseenter', () => {
-            gsap.to('.title', {
-                textShadow: '0 0 20px rgba(255, 215, 0, 0.8), 3px 3px 0px #FFD700, 6px 6px 0px #FF8C00, 9px 9px 0px #FF4500, 12px 12px 10px rgba(0,0,0,0.3)',
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        });
-
-        document.querySelector('.title').addEventListener('mouseleave', () => {
-            gsap.to('.title', {
-                textShadow: '3px 3px 0px #FFD700, 6px 6px 0px #FF8C00, 9px 9px 0px #FF4500, 12px 12px 10px rgba(0,0,0,0.3)',
                 duration: 0.3,
                 ease: 'power2.out'
             });
