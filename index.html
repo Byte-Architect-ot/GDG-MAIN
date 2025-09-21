@@ -17,6 +17,14 @@
             box-sizing: border-box;
         }
 
+        @font-face {
+            font-family: 'AngryBirdsFont';
+            src: url('font/FEASFBI_.woff') format('woff'),
+             url('font/FEASFBRG.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
             font-family: 'Orbitron', monospace;
             overflow-x: hidden;
@@ -220,9 +228,6 @@
             transition: all 0.3s ease;
         }
 
-        .logo-section:hover {
-            transform: translateY(-10px) scale(1.05);
-        }
 
         .logo-section img {
             max-width: 50vh;
@@ -232,11 +237,6 @@
             object-fit: contain;
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
             transition: all 0.3s ease;
-        }
-
-        .logo-section img:hover {
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3)) brightness(1.1);
-            transform: rotate(5deg);
         }
 
         .hero-section {
@@ -253,8 +253,9 @@
 
         /* Enhanced title styling - more casual and readable */
         .title {
-            font-family: 'Fredoka', cursive;
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-family: 'AngryBirdsFont', cursive;
+            font-size: clamp(5rem, 12vw, 8rem);
+            /* font-size: 50px; */
             font-weight: 600;
             color: #2E5C00;
             text-shadow: 
@@ -484,8 +485,8 @@
         }
 
         .action-title {
-            font-family: 'Fredoka', cursive;
-            font-size: 1.5rem;
+            font-family: 'AngryBirdsFont', cursive;
+            font-size: 2rem;
             font-weight: 600;
             color: #2E5C00;
             margin-bottom: 1rem;
@@ -686,14 +687,14 @@
         }
 
         .showcase-title {
-            font-family: 'Fredoka', cursive;
+            font-family: 'AngryBirdsFont', cursive;
             font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 600;
             color: #FFD700;
             text-align: center;
             margin-bottom: 4rem;
             text-shadow: 3px 3px 0px #FF4500, 6px 6px 0px rgba(0,0,0,0.3);
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             position: relative;
             z-index: 10;
         }
@@ -1010,11 +1011,11 @@
             }
             
             .title {
-                font-size: 2.2rem;
+                font-size: 4rem;
             }
             
             .subtitle {
-                font-size: 1rem;
+                font-size: 1.5rem;
             }
 
             .video-frame {
@@ -1173,23 +1174,23 @@
 
         <!-- Image Showcase Section with Floating Layout -->
         <section class="image-showcase">
-            <h2 class="showcase-title">EVENT HIGHLIGHTS</h2>
+            <h2 class="showcase-title">UPCOMING EVENT HIGHLIGHTS</h2>
             
             <div class="floating-containers">
                 <!-- Container 1: Top Left -->
                 <div class="floating-container container-1" style="top: 10%; left: 8%;">
                     <div class="image-box">
                         <div class="image-placeholder"><img src="
-                            " alt=""></div>
+                            assets/ccf.jpg" alt=""></div>
                     </div>
-                    <div class="info-text">Epic Coding Battles</div>
+                    <div class="info-text">Workshop Sessions</div>
                 </div>
 
                 <!-- Container 2: Top Right -->
                 <div class="floating-container container-2" style="top: 20%; right: 12%;">
                     <div class="image-box">
                         <div class="image-placeholder"><img src="
-                            " alt=""></div>
+                            assets/grp.jpg" alt="" style="transform: scale(1.2);"></div>
                     </div>
                     <div class="info-text">Team Building Adventures</div>
                 </div>
@@ -1198,18 +1199,18 @@
                 <div class="floating-container container-3" style="bottom: 25%; left: 15%;">
                     <div class="image-box">
                         <div class="image-placeholder"><img src="
-                            " alt=""></div>
+                            assets/lec.jpg" alt=""></div>
                     </div>
-                    <div class="info-text">Amazing Prizes Await</div>
+                    <div class="info-text">Club Activities</div>
                 </div>
 
                 <!-- Container 4: Bottom Right -->
                 <div class="floating-container container-4" style="bottom: 15%; right: 8%;">
                     <div class="image-box">
                         <div class="image-placeholder"><img src="
-                            " alt=""></div>
+                            assets/doubt.jpg" alt=""></div>
                     </div>
-                    <div class="info-text">Developer Networking Hub</div>
+                    <div class="info-text">Mentors</div>
                 </div>
 
                 <!-- Central connecting paths -->
